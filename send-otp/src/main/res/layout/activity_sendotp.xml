@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dip"
+    tools:context=".SendOtpActivity">
+
+    <LinearLayout
+        android:id="@+id/numberInputLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
+
+        <com.msg91.axay.sendotp.CountrySpinner
+            android:id="@+id/spinner"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:text="@string/otp_enterphonenumber"
+            android:textAllCaps="true"
+            android:textColor="@color/otp_color_primary"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/otp_inputbox"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textColor="@color/otp_color_primary"
+            android:textSize="32sp">
+
+            <requestFocus/>
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:paddingEnd="40dp"
+        android:paddingStart="40dp">
+
+        <Button
+            android:id="@+id/smsVerificationButton"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/otp_button_generic"
+            android:minHeight="56dp"
+            android:minWidth="132dp"
+            android:onClick="onButtonClicked"
+            android:text="SMS Verification"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/numberInputLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/otp_selectcountry"
+        android:textAllCaps="true"
+        android:textColor="@color/otp_color_primary"
+        android:textSize="18sp"/>
+
+</RelativeLayout>

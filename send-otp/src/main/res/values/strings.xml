@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SendOTP</string>
+    <string name="otp_enterphonenumber">Enter Phone Number</string>
+    <string name="otp_selectcountry">Select Country</string>
 </resources>
