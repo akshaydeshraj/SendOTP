@@ -3,4 +3,5 @@
     <color name="otp_light_grey">#D9D9D9</color>
     <color name="otp_color_primary">#156BB3</color>
     <color name="otp_color_primary_dark">#06599e</color>
+    <color name="otp_grey">#636363</color>
 </resources>
