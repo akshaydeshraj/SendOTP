@@ -1,5 +1,5 @@
 # SendOTP
-An easy to use wrapper over Msg91's awesome SendOTP library.
+An easy to use wrapper over Msg91's awesome [SendOTP library].
 
 Download
 --------
@@ -81,3 +81,4 @@ License
     limitations under the License.
 
 [sendotp]: https://sendotp.msg91.com/
+[SendOTP library]: https://github.com/SendOTP/SendOTPAndroid
