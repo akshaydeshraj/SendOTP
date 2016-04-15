@@ -23,6 +23,11 @@ import com.msg91.sendotp.library.internal.Iso2Phone;
 
 import java.util.Locale;
 
+import static com.msg91.axay.sendotp.VerificationActivity.KEY_PHONE;
+import static com.msg91.axay.sendotp.VerificationActivity.KEY_RESULT;
+
+;
+
 /**
  * @author akshay
  * @since 12/4/16
@@ -32,12 +37,24 @@ public class SendOtpActivity extends AppCompatActivity {
     public static final String INTENT_PHONENUMBER = "phonenumber";
     public static final String INTENT_COUNTRY_CODE = "code";
 
+    public static final int REQUEST_VERIFICATION = 301;
+
     private EditText mPhoneNumber;
     private Button mSmsButton;
     private String mCountryIso;
     private TextWatcher mNumberTextWatcher;
 
+    static OtpVerificationListener mCallback;
+
     public static void start(Context context) {
+
+        try {
+            mCallback = (OtpVerificationListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OtpVerificationListener");
+        }
+
         Intent intent = new Intent(context, SendOtpActivity.class);
         context.startActivity(intent);
     }
@@ -70,6 +87,28 @@ public class SendOtpActivity extends AppCompatActivity {
         tryAndPrefillPhoneNumber();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_VERIFICATION) {
+            switch (resultCode) {
+                case VerificationActivity.RESULT_INITIATION_FAILED:
+                    mCallback.onInitiationFailed((Exception) data.getSerializableExtra(KEY_RESULT));
+                    break;
+                case VerificationActivity.RESULT_VERIFIED:
+                    mCallback.onOtpVerificationSuccess(data.getStringExtra(KEY_PHONE),
+                            data.getStringExtra(KEY_RESULT));
+                    break;
+                case VerificationActivity.RESULT_VERIFICATION_FAILED:
+                    mCallback.onOtpVerificationFailure(
+                            (Exception) data.getSerializableExtra(KEY_RESULT));
+                    break;
+            }
+            finish();
+        }
+    }
+
     private void tryAndPrefillPhoneNumber() {
         if (checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -94,7 +133,7 @@ public class SendOtpActivity extends AppCompatActivity {
         Intent verification = new Intent(this, VerificationActivity.class);
         verification.putExtra(INTENT_PHONENUMBER, phoneNumber);
         verification.putExtra(INTENT_COUNTRY_CODE, Iso2Phone.getPhone(mCountryIso));
-        startActivity(verification);
+        startActivityForResult(verification, REQUEST_VERIFICATION);
     }
 
     private void setButtonsEnabled(boolean enabled) {

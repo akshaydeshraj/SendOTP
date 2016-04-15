@@ -31,6 +31,15 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
     private Verification mVerification;
     TextView resend_timer;
 
+    public static final int RESULT_INITIATION_FAILED = 352;
+    public static final int RESULT_VERIFIED = 353;
+    public static final int RESULT_VERIFICATION_FAILED = 354;
+
+    public static final String KEY_RESULT = "result";
+    public static final String KEY_PHONE = "phone";
+
+    private String phoneNumberWithCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +96,9 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
         if (intent != null) {
             String phoneNumber = intent.getStringExtra(SendOtpActivity.INTENT_PHONENUMBER);
             String countryCode = intent.getStringExtra(SendOtpActivity.INTENT_COUNTRY_CODE);
+            phoneNumberWithCode = "+" + countryCode + phoneNumber;
             TextView phoneText = (TextView) findViewById(R.id.numberText);
-            phoneText.setText("+" + countryCode + phoneNumber);
+            phoneText.setText(phoneNumberWithCode);
             createVerification(phoneNumber, skipPermissionCheck, countryCode);
         }
     }
@@ -156,6 +166,10 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
     public void onInitiationFailed(Exception exception) {
         Log.e(TAG, "Verification initialization failed: " + exception.getMessage());
         hideProgressBarAndShowMessage(R.string.failed);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(KEY_RESULT, exception);
+        setResult(RESULT_INITIATION_FAILED, resultIntent);
+        finish();
     }
 
     @Override
@@ -163,6 +177,11 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
         Log.d(TAG, "Verified!\n" + response);
         hideProgressBarAndShowMessage(R.string.verified);
         showCompleted();
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(KEY_RESULT, response);
+        resultIntent.putExtra(KEY_PHONE, phoneNumberWithCode);
+        setResult(RESULT_VERIFIED, resultIntent);
+        finish();
     }
 
     @Override
@@ -170,6 +189,10 @@ public class VerificationActivity extends AppCompatActivity implements ActivityC
         Log.e(TAG, "Verification failed: " + exception.getMessage());
         hideProgressBarAndShowMessage(R.string.failed);
         enableInputField(true);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(KEY_RESULT, exception);
+        setResult(RESULT_VERIFICATION_FAILED, resultIntent);
+        finish();
     }
 
     private void startTimer() {
