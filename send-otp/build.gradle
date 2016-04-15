@@ -33,9 +33,36 @@ android {
     }
 }
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'send-otp'
+
+    publishedGroupId = 'com.msg91.axay.sendotp'
+    libraryName = 'SendOTP'
+    artifact = 'send-otp'
+
+    libraryDescription = 'An easy to use wrapper over Msg91\'s awesome SendOTP library.'
+
+    siteUrl = 'https://github.com/axay/SendOTP'
+    gitUrl = 'https://github.com/axay/SendOTP.git'
+
+    libraryVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    developerId = 'axay'
+    developerName = 'Akshay Deshraj'
+    developerEmail = 'akshay30nov@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.msg91.sendotp.library:library:2.3'
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
