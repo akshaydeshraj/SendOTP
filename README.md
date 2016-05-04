@@ -1,4 +1,6 @@
 # SendOTP
+
+[![Join the chat at https://gitter.im/axay/SendOTP](https://badges.gitter.im/axay/SendOTP.svg)](https://gitter.im/axay/SendOTP?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 An easy to use wrapper over Msg91's awesome [SendOTP library].
 
 Download
